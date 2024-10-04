@@ -28,31 +28,54 @@ public class Player {
      * @param name is the name of the object
      */
 
-
     public void setName(String name) {
         this.name = name;
     }
 
+    /**
+     * Method to return the value of marker
+     * @return marker
+     */
     public char getMarker() {
         return marker;
     }
 
+    /**
+     * Method to set the value of marker
+     * @param marker is the marker
+     */
     public void setMarker(char marker) {
         this.marker = marker;
     }
 
+    /**
+     * Method to get the value of loseCount
+     * @return LoseCount
+     */
     public int getLoseCount() {
         return loseCount;
     }
 
+    /**
+     * Method to set the value of loseCount
+     * @param loseCount is the LoseCount
+     */
     public void setLoseCount(int loseCount) {
         this.loseCount = loseCount;
     }
 
+    /**
+     * Method to get the value of winCount
+     * @return value of WinCount
+     */
     public int getWinCount() {
         return winCount;
     }
 
+    /**
+     * Method to set the value of winCount
+     * @param winCount is the WinCount
+     */
     public void setWinCount(int winCount) {
         this.winCount = winCount;
     }

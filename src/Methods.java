@@ -12,6 +12,9 @@ public class Methods {
     CPU cpu = new CPU("Billy",'O');
     Player playerTwo = new Player("Player Two",'O');
 
+    /**
+     * Method to start the game vs the CPU
+     */
     public void gameStart(){
         char[][] gameBoard = {{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-',},
@@ -27,7 +30,6 @@ public class Methods {
         try {
             System.out.println("Your turn: (1-9)");
             int pos = scanner.nextInt();
-
 
             while (!checkValid(pos, gameBoard)) {
                 System.out.println("Not a valid move..");
@@ -281,10 +283,18 @@ public class Methods {
                     tpPrintStats();
                     break;
                 }
+                } catch (InputMismatchException e) {
+                    System.out.println("Error");
+                    scanner.nextLine();
+                    continue;
+            }
 
+            while (true){
+           try{
             System.out.println("Player 2: (1-9)");
             // Enemy turn starts here
             int enemyPos = scanner.nextInt();
+
 
             while (!checkValid(enemyPos, gameBoard)) {
                 System.out.println("Not a valid move...");
@@ -306,11 +316,13 @@ public class Methods {
                 gameActive = false;
                 tpPrintStats();
                 break;
-            }
-        }catch (InputMismatchException e){
-            System.out.println("Invalid input");
-            scanner.nextLine();
-
+                    }
+                }
+           catch (InputMismatchException e){
+               System.out.println("Invalid input");
+               scanner.nextLine();
+               continue;
+           }
             }
         }
     }
