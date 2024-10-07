@@ -254,7 +254,6 @@ public class Methods {
                 {'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-', ' ',}};
         printBoard(gameBoard);
-
         boolean gameActive = true;
         while (gameActive) {
             // Player turn starts here
@@ -289,7 +288,8 @@ public class Methods {
                     continue;
             }
 
-            while (true){
+            boolean validMove = false;
+            while (!validMove){
            try{
             System.out.println("Player 2: (1-9)");
             // Enemy turn starts here
@@ -308,6 +308,7 @@ public class Methods {
                 break;
             }
             placement(enemyPos, cpu, gameBoard);
+            validMove = true;
 
             if (checkWinner(gameBoard, playerTwo.getMarker())) {
                 System.out.println(playerTwo.getName() + " Has won!");
@@ -317,12 +318,11 @@ public class Methods {
                 tpPrintStats();
                 break;
                     }
-                }
-           catch (InputMismatchException e){
+
+                } catch (InputMismatchException e){
                System.out.println("Invalid input");
                scanner.nextLine();
-               continue;
-           }
+                }
             }
         }
     }
