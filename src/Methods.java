@@ -8,19 +8,19 @@ import java.util.Scanner;
 public class Methods {
     Random random = new Random();
     Scanner scanner = new Scanner(System.in);
-    Player player = new Player("Player One", 'X');
+    Player player = new Player("Robin", 'X');
     CPU cpu = new CPU("Billy",'O');
-    Player playerTwo = new Player("Player Two",'O');
+    Player playerTwo = new Player("Simon",'O');
 
     /**
      * Method to start the game vs the CPU
      */
     public void gameStart(){
-        char[][] gameBoard = {{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
+        char[][] gameBoard = {{'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-',},
-                {'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
+                {'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-', ' ',},
-                {'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
+                {'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-', ' ',}};
         printBoard(gameBoard);
 
@@ -28,7 +28,7 @@ public class Methods {
         while (gameActive) {
             // Player turn starts here
         try {
-            System.out.println("Your turn: (1-9)");
+            System.out.println(player.getName() + "'s turn: (1-9)");
             int pos = scanner.nextInt();
 
             while (!checkValid(pos, gameBoard)) {
@@ -36,12 +36,6 @@ public class Methods {
                 pos = scanner.nextInt();
             }
 
-            if (isBoardFull(gameBoard)) {
-                System.out.println("It's a tie!");
-                gameActive = false;
-                printStats();
-                break;
-            }
             placement(pos, player, gameBoard);
             if (checkWinner(gameBoard, player.getMarker())) {
                 System.out.println(player.getName() + " Has won!");
@@ -51,27 +45,33 @@ public class Methods {
                 printStats();
                 break;
             }
-
-            System.out.println("Cpu's Turn");
-            // Enemy turn starts here
-            int enemyPos = random.nextInt(1, 10);
-            while (!checkValid(enemyPos, gameBoard)) {
-                System.out.println("Not a valid move...");
-                enemyPos = random.nextInt(1, 10);
-            }
-
-            if (isBoardFull(gameBoard)) {
+            else if (isBoardFull(gameBoard)) {
                 System.out.println("It's a tie!");
                 gameActive = false;
                 printStats();
                 break;
             }
+
+            System.out.println(cpu.getName() + "'s turn!");
+            int enemyPos = random.nextInt(1, 10);
+
+            while (!checkValid(enemyPos, gameBoard)) {
+                System.out.println("Not a valid move...");
+                enemyPos = random.nextInt(1, 10);
+            }
+
             placement(enemyPos, cpu, gameBoard);
 
             if (checkWinner(gameBoard, cpu.getMarker())) {
                 System.out.println(cpu.getName() + " Has won!");
                 cpu.setWinCount(cpu.getWinCount() + 1);
                 player.setLoseCount(player.getLoseCount() + 1);
+                gameActive = false;
+                printStats();
+                break;
+            }
+            else if (isBoardFull(gameBoard)) {
+                System.out.println("It's a tie!");
                 gameActive = false;
                 printStats();
                 break;
@@ -173,7 +173,7 @@ public class Methods {
     }
 
     /**
-     * Method to check if a person has won, Checking all coordinates
+     * Method to check if a person has won, Checking all positions
      * for a marker.
      * @param gameBoard Is the GameBoard
      * @param marker is the Players or Cpus Marker
@@ -193,7 +193,7 @@ public class Methods {
 
     /**
      * Method to check if the board is occupied by markers
-     * if a '-' is present, the board is not full.
+     * if a '_' is present, the board is not full.
      * @param gameBoard is the GameBoard
      * @return True if the board is full
      */
@@ -204,7 +204,9 @@ public class Methods {
                     return false;
                 }
             }
-        }return true;
+
+        }
+        return true;
     }
 
     /**
@@ -247,33 +249,29 @@ public class Methods {
      * Method to start the two player mode
      */
     public void tpGameStart(){
-        char[][] gameBoard = {{'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
+        char[][] gameBoard = {{'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-',},
-                {'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
+                {'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-', ' ',},
-                {'-', '-', '-', '-', '-', '-', '-', '-', '-', '-', '-',},
+                {'_', '_', '_', '_', '_', '_', '_', '_', '_', '_', '_',},
                 {' ', '-', ' ', '|', ' ', '-', ' ', '|', ' ', '-', ' ',}};
         printBoard(gameBoard);
         boolean gameActive = true;
         while (gameActive) {
             // Player turn starts here
             try {
-                System.out.println("Player 1: (1-9)");
+                System.out.println(player.getName() + "'s turn (1-9)");
                 int pos = scanner.nextInt();
-
 
                 while (!checkValid(pos, gameBoard)) {
                     System.out.println("Not a valid move..");
                     pos = scanner.nextInt();
                 }
 
-                if (isBoardFull(gameBoard)) {
-                    System.out.println("It's a tie!");
-                    gameActive = false;
-                    tpPrintStats();
-                    break;
-                }
                 placement(pos, player, gameBoard);
+
+
+
                 if (checkWinner(gameBoard, player.getMarker())) {
                     System.out.println(player.getName() + " Has won!");
                     player.setWinCount(player.getWinCount() + 1);
@@ -282,6 +280,14 @@ public class Methods {
                     tpPrintStats();
                     break;
                 }
+
+                if (isBoardFull(gameBoard)) {
+                    System.out.println("It's a tie!");
+                    gameActive = false;
+                    tpPrintStats();
+                    break;
+                }
+
                 } catch (InputMismatchException e) {
                     System.out.println("Error");
                     scanner.nextLine();
@@ -291,8 +297,7 @@ public class Methods {
             boolean validMove = false;
             while (!validMove){
            try{
-            System.out.println("Player 2: (1-9)");
-            // Enemy turn starts here
+            System.out.println(playerTwo.getName() + "'s turn (1-9)");
             int enemyPos = scanner.nextInt();
 
 
@@ -301,12 +306,6 @@ public class Methods {
                 enemyPos = scanner.nextInt();
             }
 
-            if (isBoardFull(gameBoard)) {
-                System.out.println("It's a tie!");
-                gameActive = false;
-                tpPrintStats();
-                break;
-            }
             placement(enemyPos, cpu, gameBoard);
             validMove = true;
 
@@ -317,7 +316,14 @@ public class Methods {
                 gameActive = false;
                 tpPrintStats();
                 break;
-                    }
+            }
+
+               if (isBoardFull(gameBoard)) {
+                   System.out.println("It's a tie!");
+                   gameActive = false;
+                   tpPrintStats();
+                   break;
+               }
 
                 } catch (InputMismatchException e){
                System.out.println("Invalid input");
